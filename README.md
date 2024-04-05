@@ -1,5 +1,5 @@
 # AirBnB MongoDB Analysis
-### Data set
+## Data set
 This data set is about the information of AirBnB in Oakland, California, United States. It comes from [Inside Airbnb website](https://insideairbnb.com/get-the-data/). 
 The original data format is: [listings.csv.gz](https://data.insideairbnb.com/united-states/ca/oakland/2023-12-20/data/listings.csv.gz).
 Here are the first 20 rows of the row data.
@@ -28,6 +28,7 @@ Here are the first 20 rows of the row data.
 1. I found that all entries in the description column of `listings.csv` are empty, so I removed this column. 
 2. I removed the Column `picture_url` to simplify the dataset, which is not useful for the data analysis.
 3. I found that many characters run the risk of importing incorrectly, so I replaced all the ★ with * .
+
 Here is my code:
 ```
 import csv
@@ -67,6 +68,7 @@ Here is the code:
 ```
 db.listings.find().limit(2)
 ```
+Using find and limit to retrieve 2 samples from the dataset. The results reveal the detailed information into host engagement, property specifics, and neighborhood descriptions. It also suggests potential correlations between detailed listing information, host responsiveness, and overall success, pointing towards strategies for hosts to enhance their listings and guest experiences.
 ```
   {
     _id: ObjectId('660f2bb9c34b7fbd6a5a27a7'),
@@ -229,6 +231,7 @@ Here is the code:
 ```
 db.listings.find().limit(10).pretty()
 ```
+The query is utilized to fetch a set of 10 documents from the listings collection and formatting the output  for enhanced readability. Through this query, we can understand on the variety of listings available more clearly.
 First 3 results:
 ```
 {
@@ -479,6 +482,7 @@ db.listings.find(
     }
 )
 ```
+This query retrieve listings from two superhosts, identified by their host_id values (3241 and 210654), focusing on specific fields. The results can highlight the operational scale of superhosts, and potentially show their pricing strategy and geographical spread of the properties.
 First three results:
 ```
    {
@@ -507,6 +511,7 @@ First three results:
 ```
 db.listings.distinct("host_name")
 ```
+The query lists all unique host_name values from the listings collection, offering a straightforward way to understand the diversity and basic information of hosts. 
 First three results:
 ```
 ['A', 'Aaron', 'Abdulla']
@@ -530,6 +535,7 @@ db.listings.find(
         {'review_scores_rating': -1}
     )
 ```
+This query lists the properties have more than 2 beds in the Shafter neighborhood, ordering the results by review_scores_rating in descending order, while displaying only the name, beds, review_scores_rating, and price fields. The results focus on properties that can accommodate larger groups or families, highlighting those with the highest guest satisfaction first. 
 First three results:
 ```
   {
@@ -564,6 +570,7 @@ db.listings.aggregate(
     }
 )
 ```
+This query groups the listings in the database by host_id and counts the number of listings each host has. The results reveals the distribution of listings across hosts. The results indicate that many hosts have only 1 listing, which is difficult to be discovered in the row data.
 First three results:
 ```
 [
@@ -580,6 +587,7 @@ db.listings.aggregate([
   { $sort: { avg_rating: -1 } }
 ])
 ```
+This query groups the listings by neighborhood and finds the average review_scores_rating. By grouping listings at the neighborhood level and calculating the average rating, this query reveals which areas are most favorably reviewed by guests, highlighting the top-performing neighborhoods in terms of guest satisfaction (Piedmont, California, United States).The result also potentially offer insights into areas that might be more appealing for guests or valuable for hosts considering where to offer new listings.
 First three results:
 ```
   {
